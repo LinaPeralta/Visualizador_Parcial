@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 import com.google.gson.Gson;
 
@@ -21,6 +22,7 @@ public class Main extends PApplet{
 	}
 	
 	private int x,y;
+	private int r,g,b;
 	BufferedReader bfr;
 	BufferedWriter bfw;
 	Dato datos;
@@ -32,7 +34,9 @@ public class Main extends PApplet{
 	}
 
 	public void setup() {
-
+      
+		x=250;
+		y=250;
 	
 		new Thread(() -> {
 
@@ -74,7 +78,7 @@ public class Main extends PApplet{
 					System.out.println("mensaje recibido: " + mensaje);
 					Gson gson =  new Gson();
 					datos = gson.fromJson(mensaje, Dato.class);
-					move();
+					colores();
 					
 
 				} catch (IOException e) {
@@ -89,48 +93,48 @@ public class Main extends PApplet{
 
 		background(255);
 		noStroke();
-		//fill();
-		ellipse(x, y, 60, 60);
+		fill(r,g,b);
+		ellipse(x,y, 50, 50);
 	}
 
-	public void move() {
+	public void colores() {
 
-//		switch (datos.getMovimiento()) {
-//
-//		case "up":
-//
-//			y -= datos.getMov();
-//
-//			break;
-//
-//		case "right":
-//
-//			x += datos.getMov();
-//
-//			break;
-//
-//		case "left":
-//
-//			x -= datos.getMov();
-//
-//			break;
-//
-//		case "down":
-//
-//			y += datos.getMov();
-//
-//			break;
-//
-//		case "color":
-//
-//			r = datos.getR();
-//			g = datos.getG();
-//			b = datos.getB();
-//
-//			break;
-//
-//		}
+		switch (datos.getColor()) {
 
+		case "rojo":
+
+			 r = 122;
+			 g = 9;
+			 b = 9;
+
+			break;
+
+		case "verde":
+
+			 r = 71;
+			 g = 88;
+			 b = 23;
+
+			break;
+
+		case "azul":
+
+			 r = 50;
+			 g = 89;
+			 b = 135;
+
+			break;
+
+
+		}
+
+	}
+	
+	public void movimiento() {
+		
+		
+		 
+		
 	}
 
 
