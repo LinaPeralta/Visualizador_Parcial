@@ -15,35 +15,34 @@ import com.google.gson.Gson;
 import model.Dato;
 import processing.core.PApplet;
 
-public class Main extends PApplet{
+public class Main extends PApplet {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main("Main");
 
 	}
-	
-	private int posX,posY;
-	private int r,g,b;
+
+	private int posX, posY;
+	private int r, g, b;
 	private String nombre;
 	private int cantidad;
 	BufferedReader bfr;
 	BufferedWriter bfw;
 	Dato datos;
-	
-	private ArrayList<Dato> bolita;
-	
+	private int v1, v2, v3, v4;
+	private boolean click;
 
-	
+	private ArrayList<Dato> bolita;
+
 	public void settings() {
 
 		size(500, 500);
 	}
 
 	public void setup() {
-      
-		
+
 		bolita = new ArrayList<>();
-	
+
 		new Thread(() -> {
 
 			try {
@@ -82,10 +81,12 @@ public class Main extends PApplet{
 
 					String mensaje = bfr.readLine();
 					System.out.println("mensaje recibido: " + mensaje);
-					Gson gson =  new Gson();
-				    datos = gson.fromJson(mensaje, Dato.class);
-			
+					Gson gson = new Gson();
+					datos = gson.fromJson(mensaje, Dato.class);
+
 					crear();
+					
+					
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -99,55 +100,90 @@ public class Main extends PApplet{
 
 		background(255);
 		
-		
+		//if (datos.isClick()==false) {
+
 		for (int i = 0; i < bolita.size(); i++) {
-			
+
 			noStroke();
-         	fill(bolita.get(i).getR(),bolita.get(i).getG(),bolita.get(i).getB());
-  			ellipse(bolita.get(i).getPosX(),bolita.get(i).getPosY(), 50, 50);
+			fill(bolita.get(i).getR(), bolita.get(i).getG(), bolita.get(i).getB());
+			ellipse(bolita.get(i).getPosX(), bolita.get(i).getPosY(), 20, 20);
 			
-			//nombre del grupo de bolitas
- 			//fill(96,24,63);
- 			//text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
+			//movimiento
 			
+			float num = (int) random(0, 4);
+			
+			
+			if (num == 1) {
+
+				bolita.get(i).setPosX(bolita.get(i).getPosX()+6);
+				//bolita.get(i).setPosX(datos.getPosX()++);
+			 
+			}
+			if (num == 2) {
+
+				bolita.get(i).setPosX(bolita.get(i).getPosX()-6);
+
+			}
+
+			if (num == 3) {
+
+				bolita.get(i).setPosY(bolita.get(i).getPosY()+6);
+
+			}
+			
+			if (num == 4) {
+
+				bolita.get(i).setPosY(bolita.get(i).getPosY()-6);
+			}
+			
+			
+
+
+			// nombre del grupo de bolitas
+			// fill(96,24,63);
+			// text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
+
 		}
+		
+		//}else if (datos.isClick()==true){
+		
+		  
+		
+	//}
+	
 
 	}
-	
-	public void crear(){
-		
-		   
-		   //pintar bolita
-	    for (int i = 0; i <datos.getCantidad(); i++) {
-			
-			//lectura de datos
-			String nom =  datos.getNombre();
-			
+
+	public void crear() {
+
+		// pintar bolita
+		for (int i = 0; i < datos.getCantidad(); i++) {
+
+			// lectura de datos
+			String nom = datos.getNombre();
+
 			int cant = datos.getCantidad();
-			
+
 			int x = datos.getPosX();
 			int y = datos.getPosY();
-			
-			
+
 			int r = datos.getR();
 			int g = datos.getG();
 			int b = datos.getB();
-			
-	
-			bolita.add (new Dato (r, g, b, nom,cant,x,y));
-			
-			
+
+			bolita.add(new Dato(r, g, b, nom, cant, x, y));
+
 		}
 
 	}
 
 	
-	public void movimiento() {
+	
+	public void accion() {
 		
-		
-		 
 		
 	}
-
+	
+	
 
 }
