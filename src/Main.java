@@ -33,28 +33,6 @@ public class Main extends PApplet{
 	private ArrayList<Dato> bolita;
 	
 
-	  public void datos (Dato datos){
-			
-		    //nombre
-		
-		    nombre=datos.getNombre();
-			
-		    //cantidad
-		    		
-		    cantidad=datos.getCantidad();
-		
-			//coordenadas
-		    posX=datos.getPosX();
-		    posY=datos.getPosY();
-			
-			//color
-			r=datos.getR();
-			g=datos.getG();
-			b=datos.getB();
-			
-			//bolita.add (new Dato(datos.getPosX(), datos.getPosY(), bolas.g))
-			
-	     }
 	
 	public void settings() {
 
@@ -64,7 +42,7 @@ public class Main extends PApplet{
 	public void setup() {
       
 		
-		bolita = new ArrayList<>(cantidad);
+		bolita = new ArrayList<>();
 	
 		new Thread(() -> {
 
@@ -105,9 +83,9 @@ public class Main extends PApplet{
 					String mensaje = bfr.readLine();
 					System.out.println("mensaje recibido: " + mensaje);
 					Gson gson =  new Gson();
-					datos = gson.fromJson(mensaje, Dato.class);
-					//colores();
-					
+				    datos = gson.fromJson(mensaje, Dato.class);
+			
+					crear();
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -124,31 +102,44 @@ public class Main extends PApplet{
 		
 		for (int i = 0; i < bolita.size(); i++) {
 			
-			//lectura de datos
-			String nom =  bolita.get(i).getNombre();
-			
-			//int cant = bolita.get(i).getCantidad();
-			
-			int x = bolita.get(i).getPosX();
-			int y = bolita.get(i).getPosY();
-			
-			int r = bolita.get(i).getR();
-			int g = bolita.get(i).getG();
-			int b = bolita.get(i).getB();
-			
-			
-			//bolita
 			noStroke();
-			fill(r,g,b);
-			ellipse(x,y, 50, 50);
+         	fill(bolita.get(i).getR(),bolita.get(i).getG(),bolita.get(i).getB());
+  			ellipse(bolita.get(i).getPosX(),bolita.get(i).getPosY(), 50, 50);
 			
 			//nombre del grupo de bolitas
-			fill(96,24,63);
-			text(nom,x-10,y+20);
+ 			//fill(96,24,63);
+ 			//text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
+			
 		}
-		
+
 	}
 	
+	public void crear(){
+		
+		   
+		   //pintar bolita
+	    for (int i = 0; i <datos.getCantidad(); i++) {
+			
+			//lectura de datos
+			String nom =  datos.getNombre();
+			
+			int cant = datos.getCantidad();
+			
+			int x = datos.getPosX();
+			int y = datos.getPosY();
+			
+			
+			int r = datos.getR();
+			int g = datos.getG();
+			int b = datos.getB();
+			
+	
+			bolita.add (new Dato (r, g, b, nom,cant,x,y));
+			
+			
+		}
+
+	}
 
 	
 	public void movimiento() {
