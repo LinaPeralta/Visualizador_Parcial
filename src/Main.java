@@ -30,8 +30,9 @@ public class Main extends PApplet {
 	BufferedWriter bfw;
 	Dato datos;
 	private int v1, v2, v3, v4;
-	//private boolean click;
+	private boolean signal = false;
 	private boolean click2 = false;
+	private boolean clicked;
 	private boolean rebote = true;
 
 	private ArrayList<Dato> bolita;
@@ -87,7 +88,7 @@ public class Main extends PApplet {
 					datos = gson.fromJson(mensaje, Dato.class);
 
 					crear();
-					borrar();
+					
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -102,13 +103,14 @@ public class Main extends PApplet {
 		background(239,221,212);
 		
       
+		if (signal == false) {
 		
 		fill(94,15,21);
 		textSize(15);
 		text("Por favor ingrese los datos en el generador",105,40);
 		
         
-        
+		}
       
 
        //pintar las bolitas
@@ -177,6 +179,8 @@ public class Main extends PApplet {
 
 		}
 		}
+		
+		borrar();
 
         }
 	
@@ -187,6 +191,8 @@ public class Main extends PApplet {
 
 	public void crear() {
 
+		signal = true;
+		
 		// pasar datos para pintar las bolitas
 		 
 		for (int i = 0; i < datos.getCantidad(); i++) {
@@ -196,7 +202,7 @@ public class Main extends PApplet {
 
 			int cant = datos.getCantidad();
 			
-			boolean clicked = datos.isClick();
+			clicked = datos.isClick();
 
 			int x = datos.getPosX();   
 			int y = datos.getPosY();
@@ -216,8 +222,9 @@ public class Main extends PApplet {
 		
 		for (int i = 0; i < bolita.size(); i++) {
 			
-		if(bolita.get(i).isClick()) {
+		if(clicked == true) {
 			
+			//System.out.println("me borreeeee");
 			bolita.clear();
 			
 		}
