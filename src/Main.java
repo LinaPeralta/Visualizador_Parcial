@@ -30,7 +30,8 @@ public class Main extends PApplet {
 	BufferedWriter bfw;
 	Dato datos;
 	private int v1, v2, v3, v4;
-	private boolean click;
+	//private boolean click;
+	private boolean click2 = false;
 	private boolean rebote = true;
 
 	private ArrayList<Dato> bolita;
@@ -86,6 +87,7 @@ public class Main extends PApplet {
 					datos = gson.fromJson(mensaje, Dato.class);
 
 					crear();
+					borrar();
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -98,19 +100,31 @@ public class Main extends PApplet {
 	public void draw() {
 
 		background(239,221,212);
+		
+      
+		
+		fill(94,15,21);
+		textSize(15);
+		text("Por favor ingrese los datos en el generador",105,40);
+		
+        
+        
+      
 
-	
        //pintar las bolitas
 		for (int i = 0; i < bolita.size(); i++) {
 
 			noStroke();
 			fill(bolita.get(i).getR(), bolita.get(i).getG(), bolita.get(i).getB());
-			ellipse(bolita.get(i).getPosX(), bolita.get(i).getPosY(), 20, 20);
+			circle(bolita.get(i).getPosX(), bolita.get(i).getPosY(), 30);
 
 			//movimiento y rebote de las bolitas
 			
+			if(click2 == false) {
+			
 			float num = random(4);
 
+			
 			switch ((int) num) {
 			
 			case 0:
@@ -159,19 +173,17 @@ public class Main extends PApplet {
 				}
 						
 			}
-		
-
-			// nombre del grupo de bolitas
-			// fill(96,24,63);
-			// text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
+	
 
 		}
+		}
 
+        }
 	
 
 		//System.out.println(mouseX + "," + mouseY);
 
-	}
+	
 
 	public void crear() {
 
@@ -183,29 +195,58 @@ public class Main extends PApplet {
 			String nom = datos.getNombre();
 
 			int cant = datos.getCantidad();
+			
+			boolean clicked = datos.isClick();
 
-			int x = datos.getPosX();
+			int x = datos.getPosX();   
 			int y = datos.getPosY();
 
 			int r = datos.getR();
 			int g = datos.getG();
 			int b = datos.getB();
+			
 
-			bolita.add(new Dato(r, g, b, nom, cant, x, y));
+			bolita.add(new Dato(r, g, b, clicked, nom, cant, x, y));
 
 		}
 
 	}
 
-	public void accion() {
-
+	public void borrar() {
+		
+		for (int i = 0; i < bolita.size(); i++) {
+			
+		if(bolita.get(i).isClick()) {
+			
+			bolita.clear();
+			
+		}
+		}
+		
 	}
 	
 	@Override
 	public void mouseMoved() {
 		
-		
-		
+		for (int i = 0; i < bolita.size(); i++) {
+
+			if (dist(mouseX, mouseY, bolita.get(i).getPosX(), bolita.get(i).getPosY()) < 50) {
+				
+				click2 = true;
+
+				// nombre del grupo de bolitas
+				
+				if (click2 == true) {
+				 fill(0);
+				 text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
+				} 
+				
+			} else {
+				
+				click2 = false;
+			}
+		}
+
 		
 		
 	}
