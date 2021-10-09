@@ -31,6 +31,7 @@ public class Main extends PApplet {
 	Dato datos;
 	private int v1, v2, v3, v4;
 	private boolean click;
+	private boolean rebote = true;
 
 	private ArrayList<Dato> bolita;
 
@@ -85,8 +86,6 @@ public class Main extends PApplet {
 					datos = gson.fromJson(mensaje, Dato.class);
 
 					crear();
-					
-					
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -98,65 +97,86 @@ public class Main extends PApplet {
 
 	public void draw() {
 
-		background(255);
-		
-		//if (datos.isClick()==false) {
+		background(239,221,212);
 
+	
+       //pintar las bolitas
 		for (int i = 0; i < bolita.size(); i++) {
 
 			noStroke();
 			fill(bolita.get(i).getR(), bolita.get(i).getG(), bolita.get(i).getB());
 			ellipse(bolita.get(i).getPosX(), bolita.get(i).getPosY(), 20, 20);
-			
-			//movimiento
-			
-			float num = (int) random(0, 4);
-			
-			
-			if (num == 1) {
 
-				bolita.get(i).setPosX(bolita.get(i).getPosX()+6);
-				//bolita.get(i).setPosX(datos.getPosX()++);
-			 
+			//movimiento y rebote de las bolitas
+			
+			float num = random(4);
+
+			switch ((int) num) {
+			
+			case 0:
+				if (rebote) {
+					
+					
+					bolita.get(i).setPosY(bolita.get(i).getPosY() + 6);
+					
+				} else {
+					
+										
+					bolita.get(i).setPosY(bolita.get(i).getPosY() - 6);
+				}
+				
+				if (bolita.get(i).getPosY()>=497) {
+					rebote =  false;
+					
+				} 
+				
+				if (bolita.get(i).getPosY()<= -5) {
+					rebote = true;
+				}
+						
+				break;
+			case 1:	
+				
+				if (rebote) {
+					
+					
+					bolita.get(i).setPosX(bolita.get(i).getPosX() + 6);
+					
+				} else {
+					
+				
+					
+					bolita.get(i).setPosX(bolita.get(i).getPosX() - 6);
+				}
+				
+				if (bolita.get(i).getPosX()>=497) {
+					rebote =  false;
+					
+				} 
+				
+				if (bolita.get(i).getPosX()<= -5) {
+					rebote = true;
+				}
+						
 			}
-			if (num == 2) {
-
-				bolita.get(i).setPosX(bolita.get(i).getPosX()-6);
-
-			}
-
-			if (num == 3) {
-
-				bolita.get(i).setPosY(bolita.get(i).getPosY()+6);
-
-			}
-			
-			if (num == 4) {
-
-				bolita.get(i).setPosY(bolita.get(i).getPosY()-6);
-			}
-			
-			
-
+		
 
 			// nombre del grupo de bolitas
 			// fill(96,24,63);
 			// text(bolita.get(i).getNombre(),bolita.get(i).getPosX()-10,bolita.get(i).getPosY()+20);
 
 		}
-		
-		//}else if (datos.isClick()==true){
-		
-		  
-		
-	//}
+
 	
+
+		//System.out.println(mouseX + "," + mouseY);
 
 	}
 
 	public void crear() {
 
-		// pintar bolita
+		// pasar datos para pintar las bolitas
+		 
 		for (int i = 0; i < datos.getCantidad(); i++) {
 
 			// lectura de datos
@@ -177,13 +197,17 @@ public class Main extends PApplet {
 
 	}
 
-	
-	
 	public void accion() {
+
+	}
+	
+	@Override
+	public void mouseMoved() {
+		
+		
+		
 		
 		
 	}
-	
-	
 
 }
